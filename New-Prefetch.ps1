@@ -1,7 +1,7 @@
 <#
     .NOTES
     Author:  John Tyndall (iTyndall.com)
-    Version: 1.0.1.0
+    Version: 1.0.2.0
     Details: www.iTyndall.com
 
     .SYNOPSIS
@@ -136,10 +136,14 @@ Param(
     
         $Sha1 = (Get-FileHash -Path $FileDownload -Algorithm SHA1).Hash
 
+        $Sha256 = (Get-FileHash -Path $FileDownload -Algorithm SHA256).Hash
+
         If($IsPrefetchItem){
-            $PrefetchCommand = "add prefetch item name=$PrefetchName size=$Size url=$Url sha1=$($Sha1.ToLower())"
+            #$PrefetchCommand = "add prefetch item name=$PrefetchName size=$Size sha1=$($Sha1.ToLower()) url=$Url"
+            $PrefetchCommand = "add prefetch item name=$PrefetchName size=$Size sha1=$($Sha1.ToLower()) url=$Url sha256=$($Sha256.ToLower())"
         } Else {
-            $PrefetchCommand = "prefetch $PrefetchName sha1:$($Sha1.ToLower()) size:$Size $Url"
+            #$PrefetchCommand = "prefetch $PrefetchName sha1:$($Sha1.ToLower()) size:$Size $Url"
+            $PrefetchCommand = "prefetch $PrefetchName sha1:$($Sha1.ToLower()) size:$Size $Url sha256:$($Sha256.ToLower())"
         }
 
         if (Test-Path "C:\Windows\System32\clip.exe"){ $PrefetchCommand | C:\Windows\System32\clip.exe }
